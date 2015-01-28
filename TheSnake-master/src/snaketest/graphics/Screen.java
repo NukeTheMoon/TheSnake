@@ -120,6 +120,8 @@ public class Screen extends JPanel implements Runnable {
     
     //changes direction of movement
     //0: up, 1: right, 2: down, 3: left
+    //do not invoke this anywhere else but the update() method
+    //change _scheduledDirection instead
     public void changeDirection(int dir)
     {
         if 
@@ -195,12 +197,27 @@ public class Screen extends JPanel implements Runnable {
         public void keyTyped(KeyEvent e) 
         {
             char key = e.getKeyChar();
-            if (key == 'w') _scheduledDirection = 0;
-            if (key == 'd') _scheduledDirection = 1;
-            if (key == 's') _scheduledDirection = 2;
-            if (key == 'a') _scheduledDirection = 3;
-            if (key == 'q') turnLeft();
-            if (key == 'e') turnRight();
+            switch (key)
+            {
+                case 'w': 
+                    _scheduledDirection = 0;
+                    break;
+                case 'd':
+                    _scheduledDirection = 1;
+                    break;
+                case 's': 
+                    _scheduledDirection = 2;
+                    break;
+                case 'a': 
+                    _scheduledDirection = 3;
+                    break;
+                case 'q': 
+                    turnLeft();
+                    break;
+                case 'e':
+                    turnRight();
+                    break;
+            }
         }
 
         @Override
