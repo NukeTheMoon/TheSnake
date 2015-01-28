@@ -36,6 +36,7 @@ public class Screen extends JPanel implements Runnable {
     
     private boolean[] _direction = {false, true, false, false};
     private int _scheduledDirection = 1;
+    private int _currentDirection = 1;
     private Key _key;
     
     public Screen()
@@ -68,6 +69,7 @@ public class Screen extends JPanel implements Runnable {
         if (_direction[3]) --_spawnPoint.x;
     }
     
+   
     public void teleport()
     {
         if (_spawnPoint.x > HMax) _spawnPoint.x = 0;
@@ -131,7 +133,18 @@ public class Screen extends JPanel implements Runnable {
         {
             Arrays.fill(_direction, false);
             _direction[dir] = true;
+            _currentDirection = dir;
         }
+    }
+    
+    private void turnRight() {
+        if (_currentDirection == 3) _scheduledDirection = 0;
+        else _scheduledDirection = _currentDirection + 1;
+    }
+
+    private void turnLeft() {
+        if (_currentDirection == 0) _scheduledDirection = 3;
+        else _scheduledDirection = _currentDirection - 1;
     }
     
     public void start()
@@ -185,7 +198,9 @@ public class Screen extends JPanel implements Runnable {
             if (key == 'w') _scheduledDirection = 0;
             if (key == 'd') _scheduledDirection = 1;
             if (key == 's') _scheduledDirection = 2;
-            if (key == 'a') _scheduledDirection = 3;            
+            if (key == 'a') _scheduledDirection = 3;
+            if (key == 'q') turnLeft();
+            if (key == 'e') turnRight();
         }
 
         @Override
